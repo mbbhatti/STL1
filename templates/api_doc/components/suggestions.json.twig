@@ -1,0 +1,34 @@
+{
+  "required" : [ "action", "artist", "department", "type" ],
+  "type" : "object",
+  "properties" : {
+    "artist" : {
+      "type" : "array",
+      "example" : [ "Laura Pausini" ],
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "action" : {
+      "type" : "array",
+      "example" : [ "Christmas", "alles halber preis" ],
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "department" : {
+      "type" : "array",
+      "example" : [ "die beiden sind", "test" ],
+      "items" : {
+        "type" : "string"
+      }
+    },
+    "type" : {
+      "type" : "array",
+      "example" : [ "Eine Testart der Platzierung 99" ],
+      "items" : {
+        "type" : "string"
+      }
+    }
+  }
+}

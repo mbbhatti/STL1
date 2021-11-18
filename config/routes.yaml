@@ -1,0 +1,7 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+crudlex:
+  resource: '@CRUDlexSymfony4Bundle/Resources/config/routes.yaml'
+  prefix: /crud

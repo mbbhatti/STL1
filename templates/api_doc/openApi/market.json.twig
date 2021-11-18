@@ -1,0 +1,41 @@
+{
+  "get" : {
+    "tags" : [ "open api v1" ],
+    "summary" : "Show market image to view",
+    "parameters" : [ {
+      "name" : "id",
+      "in" : "path",
+      "description" : "Market id example 1.",
+      "required" : true,
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "integer"
+      }
+    }, {
+      "name" : "filename",
+      "in" : "path",
+      "description" : "Filename example market.jpg.",
+      "required" : true,
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "string"
+      }
+    } ],
+    "responses" : {
+      "200" : {
+        "description" : "The request was successful."
+      },
+      "401" : {
+        "description" : "The authorization was invalid."
+      },
+      "404" : {
+        "description" : "Market doesn't exist."
+      }
+    },
+    "security" : [ {
+      "basicAuth" : [ ]
+    } ]
+  }
+}

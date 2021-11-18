@@ -1,0 +1,99 @@
+{% extends layout %}
+
+{% block content %}
+
+    {% set definition = entity.getDefinition() %}
+    {% set fields = definition.getPublicFieldNames() %}
+
+    <a id="crudBtnList" href="{{ crud.generateURL('crudList', {'entity': crudEntity}) }}" type="button" class="btn btn-default btn-success btn-crudlex">{{ 'crudlex.button.list'|trans }}</a>
+    <a id="crudBtnNew" href="{{ crud.generateURL('crudCreate', {'entity': crudEntity}) }}" class="btn btn-success btn-crudlex">{{ 'crudlex.button.new'|trans }}</a>
+
+    <table class="table table-striped crudEntityShowTable" id="crudEntity{{ crudEntity }}">
+        <tr>
+            <th>{{ 'crudlex.show.field'|trans }}</th>
+            <th>{{ 'crudlex.show.value'|trans }}</th>
+        </tr>
+        {% for field in fields %}
+            <tr id="crudRow{{ field }}">
+                <td>
+                    {{ definition.getFieldLabel(field) }}
+                    {% if definition.getField(field, 'description') %}
+                        <p><small>{{ definition.getField(field, 'description') }}</small></p>
+                    {% endif %}
+                </td>
+                <td id="crudField{{ field }}">
+                    {% include crud.getTemplate('template', 'renderField', crudEntity) with {
+                        entity: entity,
+                        crudEntity: crudEntity,
+                        definition: definition,
+                        field: field,
+                        crud: crud,
+                        mode: 'show'
+                    } only %}
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="2">
+                <a id="crudBtnEdit" href="{{ crud.generateURL('crudEdit', {'entity': crudEntity, 'id': entity.get('id')}) }}" type="button" class="btn btn-default btn-warning">{{ 'crudlex.button.edit'|trans }}</a>
+                <form class="crudFormDelete" style="display: inline-block" onSubmit="return confirm('{{ 'crudlex.deleteEntityConfirmation'|trans({'%id%': entity.get('id')}) }}');" method="POST" action="{{ crud.generateURL('crudDelete', {'entity': crudEntity, 'id': entity.get('id')}) }}">
+                    <input id="crudBtnDelete" type="submit" class="btn btn-default btn-danger" value="{{ 'crudlex.button.delete'|trans }}" />
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    {% for i, child in children %}
+        <h2>{{ child[0] }}</h2>
+        <table class="table table-striped crudEntityChildListTable" id="crudChild{{ i }}">
+            <tr>
+                <th>{{ 'crudlex.show.childName'|trans }}</th>
+                <th>{{ 'crudlex.show.childAction'|trans }}</th>
+                <th>Meta-data</th>
+            </tr>
+            {% for childEntity in child[3] %}
+                {% set media = childEntity.get('id') %}
+                {% set filename = childEntity.get(child[2]) %}
+                {% set url = crud.generateURL('formMedia', {'id': media, 'filename': filename}) %}
+                {% set type = childEntity.get('type')  %}
+                <tr>
+                    <td>
+                        {% if type starts with 'video' %}
+                            <a href="{{ url }}" type="button" class="btn btn-default btn-xs btn-success">
+                                Download Video
+                            </a>
+                        {% else %}
+                            <a href="{{ url }}" class="galleryItem" data-group="">
+                                <img src="{{ url }}" class="galleryImg">
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a id="crudBtnShow{{ childEntity.get('id') }}" href="{{ crud.generateURL('crudShow', {'entity': child[1], 'id': childEntity.get('id')}) }}" type="button" class="btn btn-default btn-xs btn-success">{{ 'crudlex.button.show'|trans }}</a>
+                        <br/>
+                        <a id="crudBtnEdit{{ childEntity.get('id') }}" href="{{ crud.generateURL('crudEdit', {'entity': child[1], 'id': childEntity.get('id')}) }}" type="button" class="crudBtnEdit btn btn-default btn-xs btn-warning">{{ 'crudlex.button.edit'|trans }}</a>
+                        <br/>
+                        <form style="display: inline-block" onSubmit="return confirm('{{ 'crudlex.deleteEntityConfirmation'|trans({'%id%': childEntity.get('id')}) }}');" method="POST" action="{{ crud.generateURL('crudDelete', {'entity': child[1], 'id': childEntity.get('id')}) }}">
+                            <input type="hidden" name="redirectEntity" value="{{ crudEntity }}" />
+                            <input type="hidden" name="redirectId" value="{{ entity.get('id') }}" />
+                            <input id="crudBtnDelete{{ childEntity.get('id') }}" type="submit" class="crudBtnDelete btn btn-default btn-xs btn-danger" value="{{ 'crudlex.button.delete'|trans }}" />
+                        </form>
+                    </td>
+                    <td>
+                        <b>Filename: </b>{{ filename }}<br>
+                        <b>Mime-type: </b>{{ type }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
+
+{% endblock %}
+
+{% block delayedJs %}
+
+    <!-- Magnific Popup http://dimsemenov.com/plugins/magnific-popup/documentation.html#including-files -->
+    <script  src="{{ asset('js/jquery.magnific-popup.js') }}"></script>
+    <script  src="{{ asset('js/form-show.js') }}"></script>
+
+{% endblock %}

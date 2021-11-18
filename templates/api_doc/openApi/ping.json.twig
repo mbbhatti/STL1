@@ -1,0 +1,18 @@
+{
+  "get" : {
+    "tags" : [ "open api v1" ],
+    "summary" : "Shows whether the backend is available.",
+    "responses" : {
+      "200" : {
+        "description" : "The backend is available.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/status"
+            }
+          }
+        }
+      }
+    }
+  }
+}

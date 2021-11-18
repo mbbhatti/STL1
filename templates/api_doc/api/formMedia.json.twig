@@ -1,0 +1,47 @@
+{
+  "post" : {
+    "tags" : [ "api v1" ],
+    "summary" : "Add media with form id",
+    "parameters" : [ {
+      "name" : "form",
+      "in" : "path",
+      "description" : "The id for the form.",
+      "required" : true,
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "integer"
+      }
+    } ],
+    "requestBody" : {
+      "content" : {
+        "multipart/form-data" : {
+          "schema" : {
+            "$ref" : "#/components/schemas/body"
+          }
+        }
+      }
+    },
+    "responses" : {
+      "200" : {
+        "description" : "The request was successful.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/formDetail"
+            }
+          }
+        }
+      },
+      "400" : {
+        "description" : "Something was wrong with the request:\n- invalid media id\n- the file must be given            \n- the file must be an image/* or video/*\n- database error"
+      },
+      "401" : {
+        "description" : "The authorization was invalid."
+      }
+    },
+    "security" : [ {
+      "basicAuth" : [ ]
+    } ]
+  }
+}

@@ -1,0 +1,20 @@
+media:
+  label: Test Media
+  table: media
+  fields:
+    type:
+          type: set
+          label: type
+          required: true
+          items: [image/png, image/jpeg, video/mpeg, video/avi, video/quicktime]
+    filename:
+          type: file
+          path: 'files'
+          label: File
+          required: true
+    thumbnail:
+          type: file
+          path: 'files'
+          label: Thumbnail
+
+

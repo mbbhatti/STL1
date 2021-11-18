@@ -1,0 +1,722 @@
+{
+    "openapi" : "3.0.1",
+    "info" : {
+        "title" : "Universal POS Backend API",
+        "description" : "This is the documentation for universal POS Backend API",
+        "version" : "1.0.0"
+    },
+    "servers" : [ {
+        "url" : "{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}"
+    } ],
+    "tags" : [ {
+        "name" : "open api v1",
+        "description" : "Open API without authorization, version 1."
+    }, {
+        "name" : "api v1",
+        "description" : "API needing authorization, version 1."
+    } ],
+    "paths" : {
+        "/openapi/v1/ping" : {
+            "get" : {
+                "tags" : [ "open api v1" ],
+                "summary" : "Shows whether the backend is available.",
+                "responses" : {
+                    "200" : {
+                        "description" : "The backend is available.",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "$ref" : "#/components/schemas/status"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/openapi/v1/market/{id}/{filename}" : {
+            "get" : {
+                "tags" : [ "open api v1" ],
+                "summary" : "Show market image to view",
+                "parameters" : [ {
+                    "name" : "id",
+                    "in" : "path",
+                    "description" : "Market id example 1.",
+                    "required" : true,
+                    "style" : "simple",
+                    "explode" : false,
+                    "schema" : {
+                        "type" : "integer"
+                    }
+                }, {
+                    "name" : "filename",
+                    "in" : "path",
+                    "description" : "Filename example market.jpg.",
+                    "required" : true,
+                    "style" : "simple",
+                    "explode" : false,
+                    "schema" : {
+                        "type" : "string"
+                    }
+                } ],
+                "responses" : {
+                    "200" : {
+                        "description" : "The request was successful."
+                    },
+                    "401" : {
+                        "description" : "The authorization was invalid."
+                    },
+                    "404" : {
+                        "description" : "Market doesn't exist."
+                    }
+                },
+                "security" : [ {
+                    "basicAuth" : [ ]
+                } ]
+            }
+        },
+        "/openapi/v1/media/{id}/{filename}" : {
+            "get" : {
+                "tags" : [ "open api v1" ],
+                "summary" : "show media image or thumbnail",
+                "parameters" : [ {
+                    "name" : "id",
+                    "in" : "path",
+                    "description" : "Media id example 1001.",
+                    "required" : true,
+                    "style" : "simple",
+                    "explode" : false,
+                    "schema" : {
+                        "type" : "integer"
+                    }
+                }, {
+                    "name" : "filename",
+                    "in" : "path",
+                    "description" : "Filename example media.jpg.",
+                    "required" : true,
+                    "style" : "simple",
+                    "explode" : false,
+                    "schema" : {
+                        "type" : "string"
+                    }
+                }, {
+                    "name" : "thumb",
+                    "in" : "query",
+                    "description" : "Thumbnail (optional)",
+                    "required" : false,
+                    "style" : "form",
+                    "explode" : true,
+                    "schema" : {
+                        "type" : "boolean"
+                    }
+                } ],
+                "responses" : {
+                    "200" : {
+                        "description" : "The request was successful."
+                    },
+                    "401" : {
+                        "description" : "The authorization was invalid."
+                    },
+                    "404" : {
+                        "description" : "Media doesn't exist."
+                    }
+                },
+                "security" : [ {
+                    "basicAuth" : [ ]
+                } ]
+            }
+        },
+        "/api/v1/profile" : {
+            "get" : {
+                "tags" : [ "api v1" ],
+                "summary" : "Get user information",
+                "responses" : {
+                    "200" : {
+                        "description" : "The request was successful.",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "$ref" : "#/components/schemas/user"
+                                }
+                            }
+                        }
+                    },
+                    "401" : {
+                        "description" : "The authorization was invalid."
+                    }
+                },
+                "security" : [ {
+                    "basicAuth" : [ ]
+                } ]
+            }
+        },
+        "/api/v1/suggestion" : {
+            "get" : {
+                "tags" : [ "api v1" ],
+                "summary" : "Get suggestions by types",
+                "responses" : {
+                    "200" : {
+                        "description" : "The request was successful.",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "$ref" : "#/components/schemas/suggestions"
+                                }
+                            }
+                        }
+                    },
+                    "304" : {
+                        "description" : "Sent if the If-None-Match header fits to the ETag.",
+                        "headers" : {
+                            "ETag" : {
+                                "description" : "The current ETag.",
+                                "style" : "simple",
+                                "explode" : false,
+                                "schema" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    },
+                    "401" : {
+                        "description" : "The authorization was invalid."
+                    }
+                },
+                "security" : [ {
+                    "basicAuth" : [ ]
+                } ]
+            }
+        },
+        "/api/v1/market" : {
+            "get" : {
+                "tags" : [ "api v1" ],
+                "summary" : "Get user markets detail",
+                "responses" : {
+                    "200" : {
+                        "description" : "The request was successful.",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "$ref" : "#/components/schemas/markets"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "304" : {
+                        "description" : "Sent if the If-None-Match header fits to the ETag.",
+                        "headers" : {
+                            "ETag" : {
+                                "description" : "The current ETag.",
+                                "style" : "simple",
+                                "explode" : false,
+                                "schema" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    },
+                    "401" : {
+                        "description" : "The authorization was invalid."
+                    }
+                },
+                "security" : [ {
+                    "basicAuth" : [ ]
+                } ]
+            }
+        },
+        "/api/v1/form" : {
+            "get" : {
+                "tags" : [ "api v1" ],
+                "summary" : "Get user form detail by etag",
+                "responses" : {
+                    "200" : {
+                        "description" : "The request was successful.",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "$ref" : "#/components/schemas/formDetail"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "304" : {
+                        "description" : "Sent if the If-None-Match header fits to the ETag.",
+                        "headers" : {
+                            "ETag" : {
+                                "description" : "The current ETag.",
+                                "style" : "simple",
+                                "explode" : false,
+                                "schema" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    },
+                    "401" : {
+                        "description" : "The authorization was invalid."
+                    }
+                },
+                "security" : [ {
+                    "basicAuth" : [ ]
+                } ]
+            },
+            "post" : {
+                "tags" : [ "api v1" ],
+                "summary" : "Add form and suggestions with market id for user.",
+                "requestBody" : {
+                    "content" : {
+                        "application/json" : {
+                            "schema" : {
+                                "$ref" : "#/components/schemas/formRequest"
+                            }
+                        }
+                    },
+                    "required" : true
+                },
+                "responses" : {
+                    "200" : {
+                        "description" : "The request was successful.",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "$ref" : "#/components/schemas/addFormDetail"
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description" : "The input was invalid in some ways. Possible errors are:\n- Invalid parameters \n- Invalid market id",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "$ref" : "#/components/schemas/errorStatus"
+                                }
+                            }
+                        }
+                    },
+                    "401" : {
+                        "description" : "The authorization was invalid."
+                    }
+                },
+                "security" : [ {
+                    "basicAuth" : [ ]
+                } ]
+            }
+        },
+        "/api/v1/form/{form}/media" : {
+            "post" : {
+                "tags" : [ "api v1" ],
+                "summary" : "Add media with form id",
+                "parameters" : [ {
+                    "name" : "form",
+                    "in" : "path",
+                    "description" : "The id for the form.",
+                    "required" : true,
+                    "style" : "simple",
+                    "explode" : false,
+                    "schema" : {
+                        "type" : "integer"
+                    }
+                } ],
+                "requestBody" : {
+                    "content" : {
+                        "multipart/form-data" : {
+                            "schema" : {
+                                "$ref" : "#/components/schemas/body"
+                            }
+                        }
+                    }
+                },
+                "responses" : {
+                    "200" : {
+                        "description" : "The request was successful.",
+                        "content" : {
+                            "application/json" : {
+                                "schema" : {
+                                    "$ref" : "#/components/schemas/formDetail"
+                                }
+                            }
+                        }
+                    },
+                    "400" : {
+                        "description" : "Something was wrong with the request:\n- invalid media id\n- the file must be given            \n- the file must be an image/* or video/*\n- database error"
+                    },
+                    "401" : {
+                        "description" : "The authorization was invalid."
+                    }
+                },
+                "security" : [ {
+                    "basicAuth" : [ ]
+                } ]
+            }
+        }
+    },
+    "components" : {
+        "schemas" : {
+            "status" : {
+                "required" : [ "ok" ],
+                "type" : "object",
+                "properties" : {
+                    "ok" : {
+                        "type" : "boolean",
+                        "description" : "Whether the status is ok or not.",
+                        "example" : true
+                    }
+                }
+            },
+            "errorStatus" : {
+                "required" : [ "error" ],
+                "type" : "object",
+                "properties" : {
+                    "error" : {
+                        "type" : "string",
+                        "description" : "What actually went wrong. Possible values:\n-carriersNotAllowed: Invalid information provided.",
+                        "example" : "Invalid parameters"
+                    }
+                }
+            },
+            "user" : {
+                "required" : [ "email", "id", "username" ],
+                "type" : "object",
+                "properties" : {
+                    "id" : {
+                        "type" : "integer",
+                        "example" : 1
+                    },
+                    "email" : {
+                        "type" : "string",
+                        "example" : "admin@smfhq.com"
+                    },
+                    "username" : {
+                        "type" : "string",
+                        "example" : "admin"
+                    }
+                }
+            },
+            "suggestions" : {
+                "required" : [ "action", "artist", "department", "type" ],
+                "type" : "object",
+                "properties" : {
+                    "artist" : {
+                        "type" : "array",
+                        "example" : [ "Laura Pausini" ],
+                        "items" : {
+                            "type" : "string"
+                        }
+                    },
+                    "action" : {
+                        "type" : "array",
+                        "example" : [ "Christmas", "alles halber preis" ],
+                        "items" : {
+                            "type" : "string"
+                        }
+                    },
+                    "department" : {
+                        "type" : "array",
+                        "example" : [ "die beiden sind", "test" ],
+                        "items" : {
+                            "type" : "string"
+                        }
+                    },
+                    "type" : {
+                        "type" : "array",
+                        "example" : [ "Eine Testart der Platzierung 99" ],
+                        "items" : {
+                            "type" : "string"
+                        }
+                    }
+                }
+            },
+            "markets" : {
+                "required" : [ "city", "customer_id", "id", "image", "name", "phone", "street", "zipcode" ],
+                "type" : "object",
+                "properties" : {
+                    "id" : {
+                        "type" : "integer",
+                        "example" : 29
+                    },
+                    "customer_id" : {
+                        "type" : "integer",
+                        "example" : 195052
+                    },
+                    "name" : {
+                        "type" : "string",
+                        "example" : "Sievershagen MM"
+                    },
+                    "sr" : {
+                        "type" : "string",
+                        "example" : "2B"
+                    },
+                    "ecr_id" : {
+                        "type" : "string",
+                        "example" : "2B"
+                    },
+                    "zipcode" : {
+                        "type" : "string",
+                        "example" : "18069"
+                    },
+                    "city" : {
+                        "type" : "string",
+                        "example" : "Mecklenburg-Vorpommern"
+                    },
+                    "street" : {
+                        "type" : "string",
+                        "example" : "An der B 105"
+                    },
+                    "ceo" : {
+                        "type" : "string",
+                        "example" : "Stefan Schmitt"
+                    },
+                    "director" : {
+                        "type" : "string",
+                        "example" : "Torsten Schwarzat"
+                    },
+                    "dispatcher" : {
+                        "type" : "string",
+                        "example" : "Udo Hinterland"
+                    },
+                    "phone" : {
+                        "type" : "string",
+                        "example" : "xxxx xxxx xxx"
+                    },
+                    "image" : {
+                        "type" : "string",
+                        "format" : "uri",
+                        "example" : "http://host:port/assets/mediamarkt.jpg"
+                    }
+                }
+            },
+            "formRequest" : {
+                "required" : [ "action", "artist", "end_at", "id", "items_amount", "items_sold", "placement", "start_at", "type" ],
+                "type" : "object",
+                "properties" : {
+                    "start_at" : {
+                        "type" : "string",
+                        "description" : "The moment the object will start.",
+                        "format" : "date-time",
+                        "example" : "2016-01-01T00:00:00Z"
+                    },
+                    "end_at" : {
+                        "type" : "string",
+                        "description" : "The moment the object will end.",
+                        "format" : "date-time",
+                        "example" : "2016-01-31T00:00:00Z"
+                    },
+                    "action" : {
+                        "type" : "string",
+                        "description" : "The action of the market.",
+                        "example" : "Christmas 2016"
+                    },
+                    "placement" : {
+                        "type" : "string",
+                        "description" : "The placement of the market.",
+                        "example" : "1. Etage"
+                    },
+                    "type" : {
+                        "type" : "string",
+                        "description" : "The type of the market.",
+                        "example" : "Aufsteller"
+                    },
+                    "items_amount" : {
+                        "type" : "integer",
+                        "description" : "The items amount of the market.",
+                        "example" : 40
+                    },
+                    "items_sold" : {
+                        "type" : "integer",
+                        "description" : "The sold items of the market.",
+                        "example" : 15
+                    },
+                    "market_id" : {
+                        "type" : "integer",
+                        "description" : "The ID of the market.",
+                        "example" : 1
+                    }
+                }
+            },
+            "media" : {
+                "required" : [ "createdAt", "id", "type", "url" ],
+                "type" : "object",
+                "properties" : {
+                    "id" : {
+                        "type" : "integer",
+                        "description" : "The ID of the media.",
+                        "example" : 1
+                    },
+                    "type" : {
+                        "type" : "string",
+                        "description" : "The type of the media.",
+                        "example" : "image/png"
+                    },
+                    "createdAt" : {
+                        "type" : "string",
+                        "description" : "The moment the media was created.",
+                        "format" : "date-time",
+                        "example" : "2020-05-19T09:48:07Z"
+                    },
+                    "url" : {
+                        "type" : "string",
+                        "description" : "The media url.",
+                        "example" : "http://127.0.0.1:8000/openapi/v1/media/1001/logo.png"
+                    }
+                }
+            },
+            "market" : {
+                "required" : [ "customer_id", "id", "name" ],
+                "type" : "object",
+                "properties" : {
+                    "id" : {
+                        "type" : "integer",
+                        "description" : "The ID of the market.",
+                        "example" : 1
+                    },
+                    "customer_id" : {
+                        "type" : "integer",
+                        "description" : "The customer ID of the market.",
+                        "example" : 176212
+                    },
+                    "name" : {
+                        "type" : "string",
+                        "description" : "The name of the market object.",
+                        "example" : "Bln Alex SAT"
+                    }
+                }
+            },
+            "form" : {
+                "required" : [ "action", "artist", "createdAt", "deleted", "end_at", "id", "items_amount", "items_sold", "market", "placement", "start_at", "type" ],
+                "type" : "object",
+                "properties" : {
+                    "id" : {
+                        "type" : "string",
+                        "description" : "The ID of the object.",
+                        "example" : "42"
+                    },
+                    "deleted" : {
+                        "type" : "boolean",
+                        "description" : "The deleted state.",
+                        "example" : false
+                    },
+                    "createdAt" : {
+                        "type" : "string",
+                        "description" : "The moment the object was created.",
+                        "format" : "date-time"
+                    },
+                    "start_at" : {
+                        "type" : "string",
+                        "description" : "The moment the object was started.",
+                        "format" : "date-time"
+                    },
+                    "end_at" : {
+                        "type" : "string",
+                        "description" : "The moment the object was ended.",
+                        "format" : "date-time"
+                    },
+                    "artist" : {
+                        "type" : "string",
+                        "description" : "The artist of the object.",
+                        "example" : "Laura Pausini"
+                    },
+                    "action" : {
+                        "type" : "string",
+                        "description" : "The action of the object.",
+                        "example" : "Christmas 2016"
+                    },
+                    "placement" : {
+                        "type" : "string",
+                        "description" : "The placement of the object.",
+                        "example" : "1. Etage"
+                    },
+                    "type" : {
+                        "type" : "string",
+                        "description" : "The type of the object.",
+                        "example" : "Aufsteller"
+                    },
+                    "items_amount" : {
+                        "type" : "integer",
+                        "description" : "The items amount of the object.",
+                        "example" : 40
+                    },
+                    "items_sold" : {
+                        "type" : "integer",
+                        "description" : "The sold items of the object.",
+                        "example" : 15
+                    },
+                    "market" : {
+                        "type" : "object",
+                        "allOf" : [ {
+                            "$ref" : "#/components/schemas/market"
+                        } ]
+                    },
+                    "video" : {
+                        "type" : "string",
+                        "description" : "The video of the object."
+                    }
+                }
+            },
+            "fromMedia" : {
+                "required" : [ "pictures" ],
+                "type" : "object",
+                "properties" : {
+                    "pictures" : {
+                        "type" : "object",
+                        "description" : "The form media.",
+                        "allOf" : [ {
+                            "$ref" : "#/components/schemas/media"
+                        } ]
+                    }
+                }
+            },
+            "addFormMedia" : {
+                "required" : [ "pictures" ],
+                "type" : "array",
+                "properties" : {
+                    "pictures" : {
+                        "type" : "array",
+                        "description" : "The form media.",
+                        "example" : [ ],
+                        "items" : {
+                            "type" : "string"
+                        }
+                    }
+                }
+            },
+            "formDetail" : {
+                "type" : "object",
+                "allOf" : [ {
+                    "$ref" : "#/components/schemas/form"
+                }, {
+                    "$ref" : "#/components/schemas/fromMedia"
+                } ]
+            },
+            "addFormDetail" : {
+                "type" : "object",
+                "allOf" : [ {
+                    "$ref" : "#/components/schemas/form"
+                }, {
+                    "$ref" : "#/components/schemas/addFormMedia"
+                } ]
+            },
+            "body" : {
+                "type" : "object",
+                "properties" : {
+                    "file" : {
+                        "type" : "string",
+                        "format" : "binary"
+                    }
+                }
+            }
+        },
+        "securitySchemes" : {
+            "basicAuth" : {
+                "type" : "http",
+                "scheme" : "basic"
+            }
+        }
+    }
+}

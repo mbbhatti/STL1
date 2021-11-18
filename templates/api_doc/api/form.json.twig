@@ -1,0 +1,82 @@
+{
+  "get" : {
+    "tags" : [ "api v1" ],
+    "summary" : "Get user form detail by etag",
+    "responses" : {
+      "200" : {
+        "description" : "The request was successful.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/formDetail"
+              }
+            }
+          }
+        }
+      },
+      "304" : {
+        "description" : "Sent if the If-None-Match header fits to the ETag.",
+        "headers" : {
+          "ETag" : {
+            "description" : "The current ETag.",
+            "style" : "simple",
+            "explode" : false,
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "401" : {
+        "description" : "The authorization was invalid."
+      }
+    },
+    "security" : [ {
+      "basicAuth" : [ ]
+    } ]
+  },
+  "post" : {
+    "tags" : [ "api v1" ],
+    "summary" : "Add form and suggestions with market id for user.",
+    "requestBody" : {
+      "content" : {
+        "application/json" : {
+          "schema" : {
+            "$ref" : "#/components/schemas/formRequest"
+          }
+        }
+      },
+      "required" : true
+    },
+    "responses" : {
+      "200" : {
+        "description" : "The request was successful.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/addFormDetail"
+            }
+          }
+        }
+      },
+      "400" : {
+        "description" : "The input was invalid in some ways. Possible errors are:\n- Invalid parameters \n- Invalid market id",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/errorStatus"
+            }
+          }
+        }
+      },
+      "401" : {
+        "description" : "The authorization was invalid."
+      }
+    },
+    "security" : [ {
+      "basicAuth" : [ ]
+    } ]
+  }
+}

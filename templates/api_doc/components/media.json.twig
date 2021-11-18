@@ -1,0 +1,27 @@
+{
+  "required" : [ "createdAt", "id", "type", "url" ],
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "integer",
+      "description" : "The ID of the media.",
+      "example" : 1
+    },
+    "type" : {
+      "type" : "string",
+      "description" : "The type of the media.",
+      "example" : "image/png"
+    },
+    "createdAt" : {
+      "type" : "string",
+      "description" : "The moment the media was created.",
+      "format" : "date-time",
+      "example" : "2020-05-19T09:48:07Z"
+    },
+    "url" : {
+      "type" : "string",
+      "description" : "The media url.",
+      "example" : "http://127.0.0.1:8000/openapi/v1/media/1001/logo.png"
+    }
+  }
+}

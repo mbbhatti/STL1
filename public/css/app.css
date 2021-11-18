@@ -1,0 +1,60 @@
+body {
+    padding-top: 70px;
+}
+.btn-crudlex {
+    margin: 5px 5px 5px 5px;
+}
+.tooltip-crudlex {
+    cursor: pointer;
+}
+.select2-container {
+    width: 100% !important;
+    padding: 0;
+}
+@media (min-width: 992px) {
+    #posContent {
+        width: 95%;
+    }
+}
+#crudPageform .alert, #crudPagesuggestion .alert, #crudPagemarket .alert {
+    margin-top: 40px;
+    margin-bottom: -20px;
+}
+.navbar-brand img {
+    width: 50px;
+    margin-top: -15px;
+    margin-right: 16px;
+    margin-left: -25px;
+}
+#crudEntityListTable {
+    z-index: 1;
+}
+#subHeader {
+    z-index: 2;
+    position: fixed;
+    top: 42px;
+    left: 42px;
+    right: 0;
+    padding-top: 16px;
+    padding-bottom: 8px;
+    background-color: white;
+}
+#crudEntityListTable {
+    margin-top: 42px;
+}
+
+/* Hide the Password Salt field */
+#crudRowsalt, #crudFieldsalt {
+    display: none;
+}
+
+img.galleryImg {
+    max-width: 150px;
+    max-height: 150px;
+}
+a.disabled {
+    pointer-events: none;
+}
+.navbar-nav>li>a.disabled {
+    color: lightgray;
+}

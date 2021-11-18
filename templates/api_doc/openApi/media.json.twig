@@ -1,0 +1,51 @@
+{
+  "get" : {
+    "tags" : [ "open api v1" ],
+    "summary" : "show media image or thumbnail",
+    "parameters" : [ {
+      "name" : "id",
+      "in" : "path",
+      "description" : "Media id example 1001.",
+      "required" : true,
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "integer"
+      }
+    }, {
+      "name" : "filename",
+      "in" : "path",
+      "description" : "Filename example media.jpg.",
+      "required" : true,
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "string"
+      }
+    }, {
+      "name" : "thumb",
+      "in" : "query",
+      "description" : "Thumbnail (optional)",
+      "required" : false,
+      "style" : "form",
+      "explode" : true,
+      "schema" : {
+        "type" : "boolean"
+      }
+    } ],
+    "responses" : {
+      "200" : {
+        "description" : "The request was successful."
+      },
+      "401" : {
+        "description" : "The authorization was invalid."
+      },
+      "404" : {
+        "description" : "Media doesn't exist."
+      }
+    },
+    "security" : [ {
+      "basicAuth" : [ ]
+    } ]
+  }
+}

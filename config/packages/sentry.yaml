@@ -1,0 +1,12 @@
+sentry:
+    dsn: '%env(SENTRY_DSN)%'
+    options:
+        error_types: 'E_ALL & ~E_NOTICE'
+        environment: '%env(SENTRY_ENVIRONMENT)%'
+        http_proxy: '%env(SENTRY_HTTP_PROXY)%'
+        in_app_exclude:
+            - '%kernel.cache_dir%'
+            - '%kernel.project_dir%/vendor'
+        excluded_exceptions: #exclude validation errors
+            - App\Exception\UserNotFoundException
+            - Symfony\Component\Security\Core\Exception\AccessDeniedException

@@ -1,0 +1,34 @@
+services:
+    # Service definitions for crudlex twig extensions
+    CRUDlex\TwigExtensions:
+        autowire: true
+
+    # Service definitions for Amazon S3 file system
+    s3.client:
+        class: Aws\S3\S3Client
+        arguments:
+            - version: "latest"
+              region: '%env(S3_REGION)%'
+              credentials:
+                  key: '%env(S3_ACCESS_KEY)%'
+                  secret: '%env(S3_SECRET_ACCESS_KEY)%'
+
+    crudlex.fileSystemAdapter:
+        public: true
+        class: "League\\Flysystem\\AwsS3v3\\AwsS3Adapter"
+        arguments:
+            - "@s3.client"
+            - '%env(S3_BUCKET)%'
+
+    League\Flysystem\AwsS3v3\AwsS3Adapter:
+        alias: crudlex.fileSystemAdapter
+
+    # Service definitions for local file system
+    local.fileSystemAdapter:
+        public: true
+        class: "League\\Flysystem\\Adapter\\Local"
+        arguments:
+            - '%env(FS_BASE_PATH)%'
+
+    League\Flysystem\Adapter\Local:
+        alias: local.fileSystemAdapter

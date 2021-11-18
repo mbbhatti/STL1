@@ -1,0 +1,71 @@
+{
+  "required" : [ "action", "artist", "createdAt", "deleted", "end_at", "id", "items_amount", "items_sold", "market", "placement", "start_at", "type" ],
+  "type" : "object",
+  "properties" : {
+    "id" : {
+      "type" : "string",
+      "description" : "The ID of the object.",
+      "example" : "42"
+    },
+    "deleted" : {
+      "type" : "boolean",
+      "description" : "The deleted state.",
+      "example" : false
+    },
+    "createdAt" : {
+      "type" : "string",
+      "description" : "The moment the object was created.",
+      "format" : "date-time"
+    },
+    "start_at" : {
+      "type" : "string",
+      "description" : "The moment the object was started.",
+      "format" : "date-time"
+    },
+    "end_at" : {
+      "type" : "string",
+      "description" : "The moment the object was ended.",
+      "format" : "date-time"
+    },
+    "artist" : {
+      "type" : "string",
+      "description" : "The artist of the object.",
+      "example" : "Laura Pausini"
+    },
+    "action" : {
+      "type" : "string",
+      "description" : "The action of the object.",
+      "example" : "Christmas 2016"
+    },
+    "placement" : {
+      "type" : "string",
+      "description" : "The placement of the object.",
+      "example" : "1. Etage"
+    },
+    "type" : {
+      "type" : "string",
+      "description" : "The type of the object.",
+      "example" : "Aufsteller"
+    },
+    "items_amount" : {
+      "type" : "integer",
+      "description" : "The items amount of the object.",
+      "example" : 40
+    },
+    "items_sold" : {
+      "type" : "integer",
+      "description" : "The sold items of the object.",
+      "example" : 15
+    },
+    "market" : {
+      "type" : "object",
+      "allOf" : [ {
+        "$ref" : "#/components/schemas/market"
+      } ]
+    },
+    "video" : {
+      "type" : "string",
+      "description" : "The video of the object."
+    }
+  }
+}

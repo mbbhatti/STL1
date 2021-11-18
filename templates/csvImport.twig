@@ -1,0 +1,33 @@
+{% extends 'posLayout.twig' %}
+
+{% block content %}
+
+    <h2>Import Suggestions</h2>
+    <br/>
+    <form action="{{ crud.generateURL('importSuggestions', {}) }}" method="POST"
+          enctype="multipart/form-data"
+          class="md-6">
+        <div class="form-group">
+            <label for="file">CSV File</label>
+            <input type="file" id="file" value="file" name="file" accept="text/csv">
+            <p></p>
+            <p>
+                The file should have the same format as in
+                <b>
+                    <a href="{{ crud.generateURL('csvSuggestions', {}) }}">Tools >
+                        Export suggestions
+                    </a>
+                </b>
+            </p>
+        </div>
+        <div class="checkbox">
+            <label for="reset-0">
+                <input type="checkbox" name="reset" id="reset-0" value="true">
+                Delete existing data
+            </label>
+        </div>
+        <br/>
+        <button type="submit" class="btn btn-success">Import Suggestions</button>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{
+    "openapi" : "3.0.1",
+    "info" : {
+        "title" : "Universal POS Backend API",
+        "description" : "This is the documentation for universal POS Backend API",
+        "version" : "1.0.0"
+    },
+    "servers" : [ {
+        "url" : "{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}"
+    } ],
+    "tags" : [ {
+        "name" : "open api v1",
+        "description" : "Open API without authorization, version 1."
+    }, {
+        "name" : "api v1",
+        "description" : "API needing authorization, version 1."
+    } ],
+    "paths" : {
+        "/openapi/v1/ping" : {
+            "$ref" : "openApi/ping.json.twig"
+        },
+        "/openapi/v1/market/{id}/{filename}" : {
+            "$ref" : "openApi/market.json.twig"
+        },
+        "/openapi/v1/media/{id}/{filename}" : {
+            "$ref" : "openApi/media.json.twig"
+        },
+        "/api/v1/profile" : {
+            "$ref" : "api/profile.json.twig"
+        },
+        "/api/v1/suggestion" : {
+            "$ref" : "api/suggestion.json.twig"
+        },
+        "/api/v1/market" : {
+            "$ref" : "api/market.json.twig"
+        },
+        "/api/v1/form" : {
+            "$ref" : "api/form.json.twig"
+        },
+        "/api/v1/form/{form}/media" : {
+            "$ref" : "api/formMedia.json.twig"
+        }
+    },
+    "components" : {
+        "schemas" : {
+            "status" : {
+                "$ref" : "components/status.json.twig"
+            },
+            "errorStatus" : {
+                "$ref" : "components/errorStatus.json.twig"
+            },
+            "user" : {
+                "$ref" : "components/user.json.twig"
+            },
+            "suggestions" : {
+                "$ref" : "components/suggestions.json.twig"
+            },
+            "markets" : {
+                "$ref" : "components/markets.json.twig"
+            },
+            "formRequest" : {
+                "$ref" : "components/formRequest.json.twig"
+            },
+            "media" : {
+                "$ref" : "components/media.json.twig"
+            },
+            "market" : {
+                "$ref" : "components/market.json.twig"
+            },
+            "form" : {
+                "$ref" : "components/form.json.twig"
+            },
+            "fromMedia" : {
+                "$ref" : "components/fromMedia.json.twig"
+            },
+            "addFormMedia" : {
+                "$ref" : "components/addFormMedia.json.twig"
+            },
+            "formDetail" : {
+                "$ref" : "components/formDetail.json.twig"
+            },
+            "addFormDetail" : {
+                "$ref" : "components/addFormDetail.json.twig"
+            },
+            "body" : {
+                "$ref" : "components/body.json.twig"
+            }
+        },
+        "securitySchemes" : {
+            "basicAuth" : {
+                "type" : "http",
+                "scheme" : "basic"
+            }
+        }
+    }
+}

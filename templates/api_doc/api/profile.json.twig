@@ -1,0 +1,24 @@
+{
+  "get" : {
+    "tags" : [ "api v1" ],
+    "summary" : "Get user information",
+    "responses" : {
+      "200" : {
+        "description" : "The request was successful.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/user"
+            }
+          }
+        }
+      },
+      "401" : {
+        "description" : "The authorization was invalid."
+      }
+    },
+    "security" : [ {
+      "basicAuth" : [ ]
+    } ]
+  }
+}

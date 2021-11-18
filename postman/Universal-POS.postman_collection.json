@@ -1,0 +1,1882 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Universal-POS",
+		"_postman_id": "cf9271d1-5762-62ec-e14c-4ef46b001c68",
+		"description": "Note\n---\n\nIn-progress live api for the Universal POS project.\n\nMake sure to choose your Langauge (\"curl\", ...) and your environment (\"Universal POS DEV\", ...) in the top-right corner\n\nPossible Status Codes\n----\n\n- `HTTP 200` : ok\n- `HTTP 301` : not modified (ETag / If-None-Match)\n- `HTTP 400` : recoverable error with body `{'code': Int, 'message': String}`\n- `HTTP 401` : Unauthorized, your `Authentification` header is not present or invalid\n- `HTTP 500` : non-recoverable error\n\n\nLinks\n----\n\n- [Github](https://github.com/smartmobilefactory/universal-pos-webapp)\n- [Postman Documentation](https://documenter.getpostman.com/collection/view/28426-cf9271d1-5762-62ec-e14c-4ef46b001c68)\n- [Confluence](https://smartmobilefactory.atlassian.net/wiki/spaces/UNIVERSALPOS/pages)\n- [JIRA](https://smartmobilefactory.atlassian.net/projects/UNIPOSBACK/issues?filter=allopenissues)\n- [Jenkins](http://ci.smfhq.com/view/Universal%20POS/)\n- [Insights Sensio Labs](https://insight.sensiolabs.com/projects/4d273094-657e-4158-9f7c-1bee69d9a69d)\n- [Flynn DEV](https://dashboard.flynn.smfhq.com/apps/df7808f5-67e4-4d5c-b0c1-e7234498624f) - [Flynn STAGING](https://dashboard.flynn.smfhq.com/apps/33cc1622-a140-470d-9ae4-b2f5010eb107) - [Flynn LIVE](https://dashboard.flynn.smfhq.com/apps/9fa484ff-37e0-4c9a-8748-d5d7da86c077)\n- [Sentry DEV](https://sentry.solutions.smfhq.com/smf/universal-pos-backend-dev/) - [Sentry STAGING](https://sentry.solutions.smfhq.com/smf/universal-pos-backend-staging/) - [Sentry PRODUCTION](https://sentry.solutions.smfhq.com/smf/universal-pos-backend-production/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "openapi/v1/ping",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"responseOK();",
+							"const schema = {\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"ok\":{\"type\":\"boolean\"}},\"required\":[\"ok\"]};",
+							"const json = JSON.parse(responseBody);",
+							"validate(json, schema, \"Check JSON schema\");",
+							"",
+							"//const size = _.size(json.advertising);",
+							"//tests[`json.advertising not empty (${size} elements)`] = size > 0;",
+							"",
+							"",
+							"//// Postman Test Functions /////",
+							"function responseOK() {",
+							"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"}",
+							"function setEnv(name, value) {",
+							"    postman.setEnvironmentVariable(name,value) ;",
+							"    tests[`Setting {{${name})} = ${value}`] = true;",
+							"}",
+							"function getEnv(name) {",
+							"    return postman.setEnvironmentVariable(name);",
+							"}",
+							"function validate(json, schema, testName) {",
+							"    const validation = tv4.validateMultiple(json, schema);",
+							"    const truncate = _.truncate || _.trunc;",
+							"",
+							"    if (validation.valid) {",
+							"        tests[testName] = true;",
+							"    } else {",
+							"        let message = \"\";",
+							"        let count=0;",
+							"        for (let key in validation.errors) {",
+							"            let e = validation.errors[key];",
+							"            message += `${e.dataPath} => ${e.message} ||`;",
+							"            count++;",
+							"        }",
+							"        message = truncate(message, {'length' : 400});",
+							"        tests[`${testName} -- ${count} errors detected -- ${message}`] = false;",
+							"    }",
+							"}",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/openapi/v1/ping",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": [
+				{
+					"id": "57d97023-fdcb-4ccc-8304-66ebbd960762",
+					"name": "HTTP 200",
+					"originalRequest": {
+						"url": "{{base}}/openapi/v1/ping",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "no-cache",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "11",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Wed, 07 Dec 2016 10:29:27 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "Keep-Alive",
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"description": "Custom header"
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": "A name for the server"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"responseTime": 275,
+					"body": "{\"ok\":true}"
+				}
+			]
+		},
+		{
+			"name": "api/v1/profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"responseOK();",
+							"",
+							"env(\"username\");",
+							"env(\"password\");",
+							"env(\"auth\");",
+							"",
+							"const schema = {\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"username\":{\"type\":\"string\"},\"email\":{\"type\":\"string\"}},\"required\":[\"id\",\"username\",\"email\"]};",
+							"const json = JSON.parse(responseBody);",
+							"validate(json, schema, \"has valid JSON schema\");",
+							"",
+							"//// Postman Test Functions /////",
+							"function responseOK() {",
+							"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"}",
+							"function setEnv(name, value) {",
+							"    postman.setEnvironmentVariable(name,value) ;",
+							"    tests[`Setting {{${name})} = ${value}`] = true;",
+							"}",
+							"function getEnv(name) {",
+							"    return postman.getEnvironmentVariable(name);",
+							"}",
+							"function env(name) {",
+							"    tests[`Found {{${name})} = ${getEnv(name)}`] = true;",
+							"}",
+							"function validate(json, schema, testName) {",
+							"    const validation = tv4.validateMultiple(json, schema);",
+							"    const truncate = _.truncate || _.trunc;",
+							"",
+							"    if (validation.valid) {",
+							"        tests[testName] = true;",
+							"    } else {",
+							"        let message = \"\";",
+							"        let count=0;",
+							"        for (let key in validation.errors) {",
+							"            let e = validation.errors[key];",
+							"            message += `${e.dataPath} => ${e.message} ||`;",
+							"            count++;",
+							"        }",
+							"        message = truncate(message, {'length' : 400});",
+							"        tests[`${testName} -- ${count} errors detected -- ${message}`] = false;",
+							"    }",
+							"}"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"//// Postman Test Functions /////",
+							"const getEnv = (name) =>",
+							"     postman.getEnvironmentVariable(name);",
+							"",
+							"const basicauth = (username, password) => {",
+							"  var string = `${username}:${password}`",
+							"  return `Basic ${btoa(string)}`;",
+							"}",
+							"",
+							"",
+							"///",
+							"const auth = basicauth(getEnv(\"username\"), getEnv(\"password\"));",
+							"postman.setEnvironmentVariable(\"auth\", auth) ;",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/api/v1/profile",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "Authorization header = username + password\n"
+			},
+			"response": [
+				{
+					"id": "3429b9cc-44c6-4a5e-834b-4ad7ce63a6db",
+					"name": "HTTP 200",
+					"originalRequest": {
+						"url": "{{base}}/api/v1/profile",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"enabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "no-cache, private",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "72",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Thu, 08 Dec 2016 14:30:37 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "Keep-Alive",
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"description": "Custom header"
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": "A name for the server"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"responseTime": 804,
+					"body": "{\"id\":42,\"username\":\"pos.tester\",\"email\":\"pos.tester@mailgun.smfhq.com\"}"
+				}
+			]
+		},
+		{
+			"name": "api/v1/form",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"responseOK();",
+							"var json = JSON.parse(responseBody);",
+							"",
+							"const schema = {\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"createdAt\":{\"type\":\"string\"},\"start_at\":{\"type\":\"string\"},\"end_at\":{\"type\":\"string\"},\"artist\":{\"type\":\"string\"},\"action\":{\"type\":\"string\"},\"placement\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"},\"items_amount\":{\"type\":\"integer\"},\"items_sold\":{\"type\":\"integer\"},\"market\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"customer_id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"}},\"required\":[\"id\",\"customer_id\",\"name\"]}},\"required\":[\"id\",\"createdAt\",\"start_at\",\"end_at\",\"artist\",\"action\",\"placement\",\"type\",\"items_amount\",\"items_sold\",\"market\"]};",
+							"validate(json, schema, \"has valid JSON schema\"); ",
+							"setEnv(\"form\", json.id);",
+							"",
+							"//// Postman Test Functions /////",
+							"function responseOK() {",
+							"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"}",
+							"function setEnv(name, value) {",
+							"    postman.setEnvironmentVariable(name,value) ;",
+							"    tests[`Setting {{${name})} = ${value}`] = true;",
+							"}",
+							"function getEnv(name) {",
+							"    return postman.getEnvironmentVariable(name);",
+							"}",
+							"function validate(json, schema, testName) {",
+							"    const validation = tv4.validateMultiple(json, schema);",
+							"    const truncate = _.truncate || _.trunc;",
+							"",
+							"    if (validation.valid) {",
+							"        tests[testName] = true;",
+							"    } else {",
+							"        let message = \"\";",
+							"        let count=0;",
+							"        for (let key in validation.errors) {",
+							"            let e = validation.errors[key];",
+							"            message += `${e.dataPath} => ${e.message} ||`;",
+							"            count++;",
+							"        }",
+							"        message = truncate(message, {'length' : 400});",
+							"        tests[`${testName} -- ${count} errors detected -- ${message}`] = false;",
+							"    }",
+							"}",
+							"",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/api/v1/form",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"start_at\": \"2016-01-01T00:00:00Z\",\n  \"end_at\": \"2016-01-31T00:00:00Z\",\n  \"artist\": \"Laura Pausini\",\n  \"action\": \"Christmas 2016\",\n  \"placement\": \"1. Etage\",\n  \"type\": \"Aufsteller\",\n  \"items_amount\": 40,\n  \"items_sold\": 15,\n  \"market_id\": 1\n}"
+				},
+				"description": ""
+			},
+			"response": [
+				{
+					"id": "3b3bcd1d-86ab-43d2-87b8-95211fcd3b46",
+					"name": "HTTP 200",
+					"originalRequest": {
+						"url": "{{base}}/api/v1/form",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"enabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"enabled": true,
+								"description": "The mime type of this content"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"start_at\": \"2016-01-01T00:00:00Z\",\n  \"end_at\": \"2016-31-01T00:00:00Z\",\n  \"artist\": \"Laura Pausini\",\n  \"action\": \"Christmas 2016\",\n  \"placement\": \"1. Etage\",\n  \"type\": \"Aufsteller\",\n  \"items_amount\": 40,\n  \"items_sold\": 15,\n  \"market_id\": 1\n}"
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "no-cache, private",
+							"description": ""
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"description": ""
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "320",
+							"description": ""
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": ""
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Mon, 12 Dec 2016 10:50:46 GMT",
+							"description": ""
+						},
+						{
+							"name": "Keep-Alive",
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"description": ""
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": ""
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": ""
+						}
+					],
+					"cookie": [],
+					"responseTime": "855",
+					"body": "{\"id\":10,\"createdAt\":\"2016-12-01T00:00:00Z\",\"start_at\":\"2016-01-01T00:00:00Z\",\"end_at\":\"2016-31-01T00:00:00Z\",\"artist\":\"Laura Pausini\",\"action\":\"Christmas 2016\",\"placement\":\"1. Etage\",\"type\":\"Aufsteller\",\"items_amount\":15,\"items_sold\":40,\"market\":{\"id\":1,\"customer_id\":\"123456789\",\"name\":\"Saturn AlexanderPlatz Berlin\"}}"
+				}
+			]
+		},
+		{
+			"name": "api/v1/form/{{form}}/media (MULTIPART)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"responseOK();",
+							" var json = JSON.parse(responseBody);",
+							"",
+							"const schema = {\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"createdAt\":{\"type\":\"string\"},\"start_at\":{\"type\":\"string\"},\"end_at\":{\"type\":\"string\"},\"artist\":{\"type\":\"string\"},\"action\":{\"type\":\"string\"},\"placement\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"},\"items_amount\":{\"type\":\"integer\"},\"items_sold\":{\"type\":\"integer\"},\"market\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"customer_id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"}},\"required\":[\"id\",\"customer_id\",\"name\"]},\"pictures\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"type\":{\"type\":\"string\"},\"createdAt\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"}},\"required\":[\"id\",\"type\",\"createdAt\",\"url\"]}},\"video\":{\"type\":[\"object\",\"null\"],\"properties\":{\"id\":{\"type\":\"integer\"},\"type\":{\"type\":\"string\"},\"createdAt\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"}},\"required\":[\"id\",\"type\",\"createdAt\",\"url\"]}},\"required\":[\"id\",\"createdAt\",\"start_at\",\"end_at\",\"artist\",\"action\",\"placement\",\"type\",\"items_amount\",\"items_sold\",\"market\",\"pictures\",\"video\"]};",
+							"validate(json, schema, \"has valid JSON schema\"); ",
+							"",
+							"",
+							"//// Postman Test Functions /////",
+							"function responseOK() {",
+							"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"}",
+							"function setEnv(name, value) {",
+							"    postman.setEnvironmentVariable(name,value) ;",
+							"    tests[`Setting {{${name})} = ${value}`] = true;",
+							"}",
+							"function getEnv(name) {",
+							"    return postman.setEnvironmentVariable(name);",
+							"}",
+							"function validate(json, schema, testName) {",
+							"    const validation = tv4.validateMultiple(json, schema);",
+							"    const truncate = _.truncate || _.trunc;",
+							"",
+							"    if (validation.valid) {",
+							"        tests[testName] = true;",
+							"    } else {",
+							"        let message = \"\";",
+							"        let count=0;",
+							"        for (let key in validation.errors) {",
+							"            let e = validation.errors[key];",
+							"            message += `${e.dataPath} => ${e.message} ||`;",
+							"            count++;",
+							"        }",
+							"        message = truncate(message, {'length' : 400});",
+							"        tests[`${testName} -- ${count} errors detected -- ${message}`] = false;",
+							"    }",
+							"}",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/api/v1/form/{{form}}/media",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"enabled": true,
+							"src": "{{file}}"
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/form/{{form}}/media (BODY)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"DEPRECATED: use a MULIPART request\"] = responseCode.code === 400;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/api/v1/form/{{form}}/media",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "image/jpeg",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "api/v1/suggestion",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"responseOK();",
+							" ",
+							" ",
+							"const schema = {\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"artist\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"action\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"department\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}},\"type\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"artist\",\"action\",\"department\",\"type\"]};",
+							"const json = JSON.parse(responseBody);",
+							"validate(json, schema, \"has valid JSON schema\");",
+							"",
+							"setEnv(\"ETag\", postman.getResponseHeader(\"ETag\"));",
+							"",
+							"//// Postman Test Functions /////",
+							"function responseOK() {",
+							"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"}",
+							"function setEnv(name, value) {",
+							"    postman.setEnvironmentVariable(name,value) ;",
+							"    tests[`Setting {{${name})} = ${value}`] = true;",
+							"}",
+							"function getEnv(name) {",
+							"    return postman.setEnvironmentVariable(name);",
+							"}",
+							"function validate(json, schema, testName) {",
+							"    const validation = tv4.validateMultiple(json, schema);",
+							"    const truncate = _.truncate || _.trunc;",
+							"",
+							"    if (validation.valid) {",
+							"        tests[testName] = true;",
+							"    } else {",
+							"        let message = \"\";",
+							"        let count=0;",
+							"        for (let key in validation.errors) {",
+							"            let e = validation.errors[key];",
+							"            message += `${e.dataPath} => ${e.message} ||`;",
+							"            count++;",
+							"        }",
+							"        message = truncate(message, {'length' : 400});",
+							"        tests[`${testName} -- ${count} errors detected -- ${message}`] = false;",
+							"    }",
+							"}",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/api/v1/suggestion",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": [
+				{
+					"id": "c8fe7189-56c9-4b9b-95d6-2ca741557396",
+					"name": "HTTP 200",
+					"originalRequest": {
+						"url": "{{base}}/api/v1/suggestion",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"enabled": true
+							}
+						],
+						"body": {}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "no-cache, private",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "160",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Thu, 08 Dec 2016 14:26:06 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "Keep-Alive",
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"description": "Custom header"
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": "A name for the server"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"responseTime": 808,
+					"body": "{\"artist\":[\"Laura Pausini\",\"Bob Marley\"],\"action\":[\"Christmas 2016\",\"New Eve 2017\"],\"department\":[\"1. Etage\",\"2. Etage\"],\"type\":[\"Aufsteller\",\"Weinachstmarkt\"]}"
+				}
+			]
+		},
+		{
+			"name": "api/v1/suggestion + {{ETag}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"HTTP 304 not modified\"] = responseCode.code === 304;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/api/v1/suggestion",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "If-None-Match",
+						"value": "{{ETag}}",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": [
+				{
+					"id": "93d99bd2-b39c-4b95-b017-f9e36fb2bdef",
+					"name": "HTTP 200",
+					"originalRequest": {
+						"url": "{{base}}/api/v1/suggestion",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"enabled": true
+							}
+						],
+						"body": {}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "no-cache, private",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "160",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Thu, 08 Dec 2016 14:26:06 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "Keep-Alive",
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"description": "Custom header"
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": "A name for the server"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"responseTime": 808,
+					"body": "{\"artist\":[\"Laura Pausini\",\"Bob Marley\"],\"action\":[\"Christmas 2016\",\"New Eve 2017\"],\"department\":[\"1. Etage\",\"2. Etage\"],\"type\":[\"Aufsteller\",\"Weinachstmarkt\"]}"
+				}
+			]
+		},
+		{
+			"name": "api/v1/market",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"responseOK();",
+							" ",
+							"",
+							"const schema = {\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"customer_id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"},\"image\":{\"type\":\"string\"}},\"required\":[\"id\",\"customer_id\",\"name\", \"image\"]}};",
+							"const json = JSON.parse(responseBody);",
+							"validate(json, schema, \"has valid JSON schema\");",
+							"",
+							"setEnv(\"ETag\", postman.getResponseHeader(\"ETag\"));",
+							"",
+							"",
+							"//// Postman Test Functions /////",
+							"function responseOK() {",
+							"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"}",
+							"function setEnv(name, value) {",
+							"    postman.setEnvironmentVariable(name,value) ;",
+							"    tests[`Setting {{${name})} = ${value}`] = (value !== null);",
+							"}",
+							"function getEnv(name) {",
+							"    return postman.setEnvironmentVariable(name);",
+							"}",
+							"function validate(json, schema, testName) {",
+							"    const validation = tv4.validateMultiple(json, schema);",
+							"    const truncate = _.truncate || _.trunc;",
+							"",
+							"    if (validation.valid) {",
+							"        tests[testName] = true;",
+							"    } else {",
+							"        let message = \"\";",
+							"        let count=0;",
+							"        for (let key in validation.errors) {",
+							"            let e = validation.errors[key];",
+							"            message += `${e.dataPath} => ${e.message} ||`;",
+							"            count++;",
+							"        }",
+							"        message = truncate(message, {'length' : 400});",
+							"        tests[`${testName} -- ${count} errors detected -- ${message}`] = false;",
+							"    }",
+							"}",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/api/v1/market",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "List of saturn/mediamarkt markets with their meta data"
+			},
+			"response": [
+				{
+					"id": "24e2615a-e723-4765-a50d-4e552544f4ff",
+					"name": "OK",
+					"originalRequest": {
+						"url": "{{base}}/api/v1/market",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"enabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "private, must-revalidate",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "346",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Thu, 05 Jan 2017 16:36:55 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "ETag",
+							"key": "ETag",
+							"value": "1481300891",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"name": "Keep-Alive",
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"description": "Custom header"
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": "A name for the server"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"responseTime": 998,
+					"body": "[{\"id\":1,\"customer_id\":\"12334\",\"name\":\"Prenzlauer Berg MM\",\"sr\":\"2A\",\"ecr_id\":\"HW\",\"zipcode\":\"10178\",\"city\":\"Berlin\",\"street\":\"AlexanderPlatz 3\",\"ceo\":\"Reiner Schemel\",\"director\":\"Adrian Brunner\",\"dispatcher\":\"Adrian Brunner\",\"phone\":\"+49 (0)30 263997-221 \",\"image\":\"https:\\/\\/localhost\\/~jmfayard\\/pos\\/openapi\\/v1\\/market\\/1\\/saturn-alex.jpg\"}]"
+				}
+			]
+		},
+		{
+			"name": "api/v1/market + {{ETag}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"tests[\"HTTP 304 - not modified\"] = responseCode.code === 304;",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/api/v1/market",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "If-None-Match",
+						"value": "{{ETag}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "List of saturn/mediamarkt markets with their meta data"
+			},
+			"response": [
+				{
+					"id": "888dcb7c-d3c5-42dc-9cd8-b1ef6b1f3a28",
+					"name": "HTTP 200",
+					"originalRequest": {
+						"url": "{{base}}/api/v1/market",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"enabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "no-cache, private",
+							"description": ""
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"description": ""
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "155",
+							"description": ""
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": ""
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Mon, 12 Dec 2016 10:47:08 GMT",
+							"description": ""
+						},
+						{
+							"name": "Keep-Alive",
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=99",
+							"description": ""
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": ""
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": ""
+						}
+					],
+					"cookie": [],
+					"responseTime": "832",
+					"body": "[{\"id\":1,\"customer_id\":\"123456789\",\"name\":\"Saturn AlexanderPlatz Berlin\"},{\"id\":101,\"customer_id\":\"987654321\",\"name\":\"Media Markt Berlin-Prenzlauer Berg\"}]"
+				}
+			]
+		},
+		{
+			"name": "api/v1/form  (all my forms)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"responseOK();",
+							"var json = JSON.parse(responseBody);",
+							"",
+							"const schema = {\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"createdAt\":{\"type\":\"string\"},\"start_at\":{\"type\":\"string\"},\"end_at\":{\"type\":\"string\"},\"artist\":{\"type\":\"string\"},\"action\":{\"type\":\"string\"},\"placement\":{\"type\":\"string\"},\"type\":{\"type\":\"string\"},\"items_amount\":{\"type\":\"integer\"},\"items_sold\":{\"type\":\"integer\"},\"market\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"customer_id\":{\"type\":\"string\"},\"name\":{\"type\":\"string\"}},\"required\":[\"id\",\"customer_id\",\"name\"]},\"pictures\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\"},\"type\":{\"type\":\"string\"},\"createdAt\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"}},\"required\":[\"id\",\"type\",\"createdAt\",\"url\"]}},\"video\":{\"type\":[\"object\",\"null\"],\"properties\":{\"id\":{\"type\":\"integer\"},\"type\":{\"type\":\"string\"},\"createdAt\":{\"type\":\"string\"},\"url\":{\"type\":\"string\"}},\"required\":[\"id\",\"type\",\"createdAt\",\"url\"]}},\"required\":[\"id\",\"createdAt\",\"start_at\",\"end_at\",\"artist\",\"action\",\"placement\",\"type\",\"items_amount\",\"items_sold\",\"market\",\"pictures\",\"video\"]}};",
+							"validate(json, schema, \"has valid JSON schema\"); ",
+							"",
+							"setEnv(\"form\", _.last(json).id);",
+							"setEnv(\"media\", json[0].pictures[0].id);",
+							"",
+							"setEnv(\"ETag\", postman.getResponseHeader(\"ETag\"));",
+							"",
+							" ",
+							"//// Postman Test Functions /////",
+							"function responseOK() {",
+							"    tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"}",
+							"function setEnv(name, value) {",
+							"    postman.setEnvironmentVariable(name,value) ;",
+							"    tests[`Setting {{${name})} = ${value}`] = (value !== null);",
+							"}",
+							"function getEnv(name) {",
+							"    return postman.getEnvironmentVariable(name);",
+							"}",
+							"function validate(json, schema, testName) {",
+							"    const validation = tv4.validateMultiple(json, schema);",
+							"    const truncate = _.truncate || _.trunc;",
+							"",
+							"    if (validation.valid) {",
+							"        tests[testName] = true;",
+							"    } else {",
+							"        let message = \"\";",
+							"        let count=0;",
+							"        for (let key in validation.errors) {",
+							"            let e = validation.errors[key];",
+							"            message += `${e.dataPath} => ${e.message} ||`;",
+							"            count++;",
+							"        }",
+							"        message = truncate(message, {'length' : 400});",
+							"        tests[`${testName} -- ${count} errors detected -- ${message}`] = false;",
+							"    }",
+							"}",
+							"",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/api/v1/form",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"startAt\": \"2016-01-01T00:00:00Z\",\n  \"endAt\": \"2016-31-01T00:00:00Z\",\n  \"artist\": \"Laura Pausini\",\n  \"action\": \"Christmas 2016\",\n  \"placement\": \"1. Etage\",\n  \"type\": \"Aufsteller\",\n  \"items\": {\n    \"number\": 40,\n    \"sold\": 15\n  },\n  \"marketId\": 1,\n  \"pictures\": [ 20, 21],\n  \"video\": 22\n    \n}"
+				},
+				"description": ""
+			},
+			"response": [
+				{
+					"id": "30d389de-1b92-4aab-a8d0-45bf2610cf42",
+					"name": "Validation error error",
+					"originalRequest": {
+						"url": "{{base}}/api/v1/form?{{d}}=1",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"enabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "place",
+									"value": "101",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "action",
+									"value": "1",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "artist",
+									"value": "1",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "start",
+									"value": "2016-12-01T00:00:00Z",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "end",
+									"value": "2016-12-31T00:00:00Z",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "department",
+									"value": "2nd floor, 3b",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "type",
+									"value": "Aufsteller",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "items_number",
+									"value": "45",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "items_sold",
+									"value": "30",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "items_kind",
+									"value": "album",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "no-cache, private",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "close",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "93",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Wed, 07 Dec 2016 16:14:45 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": "A name for the server"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"responseTime": 7284,
+					"body": "{\"code\":1,\"message\":\"Invalid parameters\",\"data\":{\"place\":[\"required\"],\"action\":[\"required\"]}}"
+				},
+				{
+					"id": "793f34d3-6b60-4a79-8119-43bf6a933c9d",
+					"name": "HTTP 200",
+					"originalRequest": {
+						"url": "{{base}}/api/v1/form",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"enabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"enabled": true,
+								"description": "The mime type of this content"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startAt\": \"2016-01-01T00:00:00Z\",\n  \"endAt\": \"2016-31-01T00:00:00Z\",\n  \"artist\": \"Laura Pausini\",\n  \"action\": \"Christmas 2016\",\n  \"placement\": \"1. Etage\",\n  \"type\": \"Aufsteller\",\n  \"items\": {\n    \"number\": 40,\n    \"sold\": 15\n  },\n  \"marketId\": 1,\n  \"pictures\": [ 20, 21],\n  \"video\": 22\n    \n}"
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "no-cache, private",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "896",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Fri, 09 Dec 2016 09:59:54 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "Keep-Alive",
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"description": "Custom header"
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": "A name for the server"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"responseTime": 817,
+					"body": "[{\"id\":10,\"createdAt\":\"2016-12-01T00:00:00Z\",\"start_at\":\"2016-01-01T00:00:00Z\",\"end_at\":\"2016-31-01T00:00:00Z\",\"artist\":\"Laura Pausini\",\"action\":\"Christmas 2016\",\"placement\":\"1. Etage\",\"type\":\"Aufsteller\",\"items_number\":15,\"items_sold\":40,\"market\":{\"id\":1,\"kunde_nummer\":\"123456789\",\"name\":\"Saturn AlexanderPlatz Berlin\",\"brand\":\"SATURN\",\"address\":\"Tunnel Alexanderpl. 3\",\"zipcode\":\"10178\",\"city\":\"Berlin\",\"phone\":\"0302639970\"},\"pictures\":[{\"id\":1298,\"type\":\"image\\/jpeg\",\"createdAt\":\"2016-13-01T00:00:00Z\",\"url\":\"https:\\/\\/universalposdev.solutions.smfhq.com\\/openapi\\/v1\\/posimage\\/20\"},{\"id\":9457,\"type\":\"image\\/png\",\"createdAt\":\"2016-13-01T00:00:00Z\",\"url\":\"https:\\/\\/universalposdev.solutions.smfhq.com\\/openapi\\/v1\\/posimage\\/20\"}],\"video\":{\"id\":9116,\"type\":\"video\\/mpeg\",\"createdAt\":\"2016-13-01T00:00:00Z\",\"url\":\"https:\\/\\/universalposdev.solutions.smfhq.com\\/openapi\\/v1\\/posvideo\\/22\"}}]"
+				}
+			]
+		},
+		{
+			"name": "api/v1/form + {{ETag}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"tests[\"HTTP 304 - not modified\"] = responseCode.code === 304;",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/api/v1/form",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "{{auth}}",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "If-None-Match",
+						"value": "{{ETag}}",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"startAt\": \"2016-01-01T00:00:00Z\",\n  \"endAt\": \"2016-31-01T00:00:00Z\",\n  \"artist\": \"Laura Pausini\",\n  \"action\": \"Christmas 2016\",\n  \"placement\": \"1. Etage\",\n  \"type\": \"Aufsteller\",\n  \"items\": {\n    \"number\": 40,\n    \"sold\": 15\n  },\n  \"marketId\": 1,\n  \"pictures\": [ 20, 21],\n  \"video\": 22\n    \n}"
+				},
+				"description": ""
+			},
+			"response": [
+				{
+					"id": "74cc4050-2805-4c88-8536-bfe651db9d61",
+					"name": "Validation error error",
+					"originalRequest": {
+						"url": "{{base}}/api/v1/form?{{d}}=1",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"enabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "place",
+									"value": "101",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "action",
+									"value": "1",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "artist",
+									"value": "1",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "start",
+									"value": "2016-12-01T00:00:00Z",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "end",
+									"value": "2016-12-31T00:00:00Z",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "department",
+									"value": "2nd floor, 3b",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "type",
+									"value": "Aufsteller",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "items_number",
+									"value": "45",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "items_sold",
+									"value": "30",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								},
+								{
+									"key": "items_kind",
+									"value": "album",
+									"type": "text",
+									"enabled": true,
+									"warning": ""
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "no-cache, private",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "close",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "93",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Wed, 07 Dec 2016 16:14:45 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": "A name for the server"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"responseTime": 7284,
+					"body": "{\"code\":1,\"message\":\"Invalid parameters\",\"data\":{\"place\":[\"required\"],\"action\":[\"required\"]}}"
+				},
+				{
+					"id": "d8f5c219-d47b-439e-8c96-cf7a7eae460c",
+					"name": "HTTP 200",
+					"originalRequest": {
+						"url": "{{base}}/api/v1/form",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"enabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"enabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"enabled": true,
+								"description": "The mime type of this content"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startAt\": \"2016-01-01T00:00:00Z\",\n  \"endAt\": \"2016-31-01T00:00:00Z\",\n  \"artist\": \"Laura Pausini\",\n  \"action\": \"Christmas 2016\",\n  \"placement\": \"1. Etage\",\n  \"type\": \"Aufsteller\",\n  \"items\": {\n    \"number\": 40,\n    \"sold\": 15\n  },\n  \"marketId\": 1,\n  \"pictures\": [ 20, 21],\n  \"video\": 22\n    \n}"
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"_postman_previewtype": "text",
+					"header": [
+						{
+							"name": "Cache-Control",
+							"key": "Cache-Control",
+							"value": "no-cache, private",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "Keep-Alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Length",
+							"key": "Content-Length",
+							"value": "896",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Fri, 09 Dec 2016 09:59:54 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "Keep-Alive",
+							"key": "Keep-Alive",
+							"value": "timeout=5, max=100",
+							"description": "Custom header"
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "Apache/2.4.23 (Unix) PHP/5.5.37",
+							"description": "A name for the server"
+						},
+						{
+							"name": "X-Powered-By",
+							"key": "X-Powered-By",
+							"value": "PHP/5.5.37",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"responseTime": 817,
+					"body": "[{\"id\":10,\"createdAt\":\"2016-12-01T00:00:00Z\",\"start_at\":\"2016-01-01T00:00:00Z\",\"end_at\":\"2016-31-01T00:00:00Z\",\"artist\":\"Laura Pausini\",\"action\":\"Christmas 2016\",\"placement\":\"1. Etage\",\"type\":\"Aufsteller\",\"items_number\":15,\"items_sold\":40,\"market\":{\"id\":1,\"kunde_nummer\":\"123456789\",\"name\":\"Saturn AlexanderPlatz Berlin\",\"brand\":\"SATURN\",\"address\":\"Tunnel Alexanderpl. 3\",\"zipcode\":\"10178\",\"city\":\"Berlin\",\"phone\":\"0302639970\"},\"pictures\":[{\"id\":1298,\"type\":\"image\\/jpeg\",\"createdAt\":\"2016-13-01T00:00:00Z\",\"url\":\"https:\\/\\/universalposdev.solutions.smfhq.com\\/openapi\\/v1\\/posimage\\/20\"},{\"id\":9457,\"type\":\"image\\/png\",\"createdAt\":\"2016-13-01T00:00:00Z\",\"url\":\"https:\\/\\/universalposdev.solutions.smfhq.com\\/openapi\\/v1\\/posimage\\/20\"}],\"video\":{\"id\":9116,\"type\":\"video\\/mpeg\",\"createdAt\":\"2016-13-01T00:00:00Z\",\"url\":\"https:\\/\\/universalposdev.solutions.smfhq.com\\/openapi\\/v1\\/posvideo\\/22\"}}]"
+				}
+			]
+		},
+		{
+			"name": "openapi/v1/media/{{media}}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var type = postman.getResponseHeader(\"Content-Type\");",
+							"var typeOk= _.startsWith(type, 'image') || _.startsWith(type, 'video');",
+							"tests[`Content-Type = ${type}`] = typeOk ;",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/openapi/v1/media/{{media}}/hello.jpg",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "openapi/v1/market/{{market}}/logo.jpg",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"\"use strict\";",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var type = postman.getResponseHeader(\"Content-Type\");",
+							"var typeOk= _.startsWith(type, 'image') || _.startsWith(type, 'video');",
+							"tests[`Content-Type = ${type}`] = typeOk ;",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var market = 1;",
+							"postman.setEnvironmentVariable(\"market\", market);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{base}}/openapi/v1/market/{{market}}/logo.jpg",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": "{{base}}/openapi/v1/market/{{market}}/logo.jpg"
+			},
+			"response": []
+		}
+	]
+}

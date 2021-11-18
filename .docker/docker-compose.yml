@@ -1,0 +1,23 @@
+version: "3"
+services:
+  universalposbackend:
+    image: universalposbackend
+    build:
+      context: ..
+      dockerfile: .docker/Dockerfile
+    ports:
+      - 8080:80
+    links:
+     - universalpos-mariadb
+    volumes:
+      - ..:/srv/app:delegated
+
+  universalpos-mariadb:
+    image: mariadb:10.4.13
+    ports:
+      - 13306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: universalpos
+      MYSQL_USER: app
+      MYSQL_PASSWORD: password

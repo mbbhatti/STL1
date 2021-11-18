@@ -1,0 +1,240 @@
+
+form:
+  label: POS Events
+  table: form
+  pageSize: 50
+  initialSortField: updated_at
+  initialSortAscending: false
+  filter: [ market_group, market, customer_id, user, start_at, end_at ]
+  deleteCascade: true
+  childrenLabelFields:
+    media: filename
+  fields:
+    market:
+        type: reference
+        label: Store
+        reference:
+            entity: market
+            nameField: name
+    customer_id:
+          type: text
+          label: Store No.
+          required: true
+    market_name:
+          type: text
+          label: Store
+          required: true
+    market_group:
+          type: reference
+          label: SR
+          reference:
+            entity: market_group
+            nameField: sr
+    user:
+        type: reference
+        label: User
+        reference:
+            entity: user
+            nameField: username
+
+    action:
+          type: text
+          label: POS Event
+          required: true
+
+    artist:
+          type: text
+          label: Zusatzinformation
+          required: true
+    start_at:
+          type: date
+          label: Beginn
+          required: true
+    end_at:
+          type: date
+          label: End
+          required: true
+    type:
+          type: text
+          label: Art der Platzierung
+          required: true
+    items_amount:
+          type: integer
+          label: EK Menge
+          required: true
+    items_sold:
+          type: integer
+          label: VK Menge
+          required: true
+    placement:
+          type: text
+          label:  Ort der Platzierung
+          required: true
+
+media:
+  label: Event Media
+  table: media
+  filter: [form, type]
+  fields:
+    form:
+          type: reference
+          label: POS Event
+          reference:
+            entity: form
+            nameField: artist
+    type:
+          type: set
+          label: type
+          required: true
+          items: [image/png, image/jpeg, video/mpeg, video/avi, video/quicktime]
+    filename:
+          type: file
+          path: 'files'
+          label: File
+          required: true
+    thumbnail:
+          type: file
+          path: 'files'
+          label: Thumbnail
+
+suggestion:
+    label: Suggestions
+    table: suggestion
+    filter: [ type ]
+    listFields: [type, text, updated_at]
+    fields:
+        type:
+            type: set
+            label: Type
+            items: [action, type, department]
+        text:
+            type: text
+            label: Text
+            required: true
+
+market:
+  label: Stores
+  table: market
+  filter: [name, market_group, customer_id]
+  listFields: [customer_id, name, market_group, city, dispatcher, phone, updated_at]
+  fields:
+    customer_id:
+          type: text
+          label: Store No.
+          required: true
+    name:
+          type: text
+          label: Store
+          required: true
+    market_group:
+          type: reference
+          label: SR
+          reference:
+            entity: market_group
+            nameField: sr
+    image:
+          type: file
+          path: 'files'
+          label: image
+          required: false
+    zipcode:
+          type: text
+          label: PLZ
+          required: true
+    city:
+          type: text
+          label: Place
+          required: true
+    street:
+          type: text
+          label: Street
+          required: true
+    ceo:
+          type: text
+          label: Geschäftsführer
+          required: true
+    director:
+          type: text
+          label: Bereichsleiter
+          required: true
+    dispatcher:
+          type: text
+          label: Disponent
+          required: false
+    phone:
+          type: text
+          label: Phone
+          required: false
+    field_worker:
+          type: text
+          label: Außendienstler
+
+
+market_group:
+  label: Sales Region
+  table: market_group
+  childrenLabelFields:
+    user: username
+    market: name
+  fields:
+    sr:
+      type: text
+      label: SR
+      required: true
+
+
+
+role:
+    label: Roles
+    table: role
+    fields:
+        role:
+            type: text
+            label: Role
+            required: true
+
+
+user:
+    label: User Administration
+    table: user
+    listFields: [id, username, email, user_market, user_role]
+    filter: [  username, email ]
+    fields:
+        username:
+            type: text
+            label: Username
+            required: true
+            unique: true
+
+        email:
+            type: text
+            label: E-Mail
+            required: true
+            unique: true
+        user_market:
+            type: many
+            label: Market Groups
+            many:
+                entity: market_group
+                nameField: sr
+                thisField: user
+                thatField: market_group
+        user_role:
+            type: many
+            label: Roles
+            many:
+                entity: role
+                nameField: role
+                thisField: user
+                thatField: role
+        password:
+            type: text
+            label: Password Hash
+            description: 'Set this to your desired password. Will be automatically converted to an hash value not meant to be readable.'
+            required: true
+        salt:
+            type: text
+            label: Password Salt
+            description: 'Auto populated field on user creation. Used internally.'
+            required: false
+

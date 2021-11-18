@@ -1,0 +1,47 @@
+security:
+    encoders:
+        CRUDlex\User:
+            algorithm: bcrypt
+            cost: 13
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        users_in_memory: { memory: null }
+        app_user_provider:
+            id: CRUDlex\UserProvider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: lazy
+            provider: app_user_provider
+            pattern: ^/
+            http_basic: ~
+            stateless: true
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/$, roles: ROLE_SUPERVISOR }
+        - { path: ^/adminapi/.*, roles: ROLE_SUPERVISOR }
+        - { path: ^/crud/(user|role), roles: ROLE_ADMIN }
+        - { path: ^/crud/(market|market_group)/.*/(edit|delete), roles: ROLE_ADMIN }
+        - { path: ^/crud/(market|market_group)/create, roles: ROLE_ADMIN }
+        - { path: ^/crud, roles: ROLE_SUPERVISOR }
+        - { path: ^/api/.*, roles: ROLE_API }
+        - { path: ^/api-docs, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/openapi/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/crud/resource/static, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^.*$, roles: ROLE_ADMIN }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_SUPERVISOR,
+        ROLE_SUPERVISOR: ROLE_API

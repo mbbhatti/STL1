@@ -1,0 +1,201 @@
+{% extends layout %}
+
+{% block content %}
+
+    {% set collapsedFields = [ 'action', 'type', 'placement', 'artist', 'items_amount', 'items_sold'] %}
+    {% set normalFields = ['market_group', 'market', 'customer_id', 'user', 'start_at', 'end_at', 'updated_at'] %}
+    {% set urlsMap = mediaUrls() %}
+    {% set fields = definition.getListFields() %}
+    {% set sortAscendingStr = sortAscending ? 'true' : false %}
+
+    {% set filterParams = {} %}
+    {% if filterActive %}
+        {% for filterField, filterValue in filter %}
+            {% set filterParams = filterParams|merge({('crudFilter' ~ filterField): filterValue}) %}
+        {% endfor %}
+    {% endif %}
+
+    <div id="subHeader">
+        <a
+            id="crudBtnNew"
+            href="{{ crud.generateURL('crudCreate', {'entity': crudEntity}) }}"
+            class="btn btn-success btn-crudlex">
+            {{ 'crudlex.button.new'|trans }}
+        </a>
+        <a id="delete-batch" class="btn btn-danger">Delete</a>
+
+        {% if filter %}
+            <a class="btn btn-success" data-toggle="collapse" href="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">{{ 'crudlex.list.button.filter'|trans }}</a>
+            <div class="collapse" id="collapseFilter">
+                <div class="well">
+                    <form role="form" method="GET" action="{{ crud.generateURL('crudList', {'entity': crudEntity}) }}">
+                        {% for filterField, filterValue in filter %}
+                            {% set type = crudData.getDefinition().getType(filterField) %}
+                            {% if type == 'boolean' %}
+                                {% include crud.getTemplate('template', 'fieldLabel', crudEntity) with {
+                                field: filterField,
+                                definition: definition,
+                                annotations: false
+                                } only %}
+                                <select class="form-control" id="{{ filterField }} " name="{{ 'crudFilter' ~ filterField }}">
+                                    {% set values = ['', 'true', 'false'] %}
+                                    {% for setValue in values %}
+                                        <option value="{{ setValue }}" {% if filterValue and setValue == filterValue %}selected="selected" {% endif %}>{{ setValue }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <div class="form-group">
+                                    {% if type == 'file' %}
+                                        {% set type = 'text' %}
+                                    {% endif %}
+                                    {% include crud.getTemplate('template', type ~ 'Field', crudEntity) with {
+                                        crud: crud,
+                                        field: filterField,
+                                        fieldNamePrefix: 'crudFilter',
+                                        crudData: crudData,
+                                        value: filterValue,
+                                        annotations: false,
+                                        crudEntity: crudEntity
+                                    } only %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <input type="hidden" name="crudSortField" value="{{ sortField }}" />
+                        <input type="hidden" name="crudSortAscending" value="{{ sortAscendingStr ? 'true' : false }}" />
+                        <button type="submit" id="crudBtnSubmit" class="btn btn-default btn-success">{{ 'crudlex.list.button.doFilter'|trans }}</button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="table-responsive table-wrapper">
+        <table class="table table-striped" id="crudEntityListTable">
+            <tr>
+                <th>
+                    <input type="checkbox" class="checkbox" id="selectall" name="selectall"  />
+                </th>
+                <th>Image</th>
+                <th>Data</th>
+                {% for i, field in normalFields %}
+                    <th id="crudEntityField{{ i }}">
+                        {% set type = definition.getType(field) %}
+                        {% if type == 'many' %}
+                            {{ definition.getFieldLabel(field) }}
+                        {% else %}
+                            <a href="{{ crud.generateURL('crudList', {'entity': crudEntity, 'crudSortField': field, 'crudSortAscending': sortAscendingStr ? 'false' : 'true','crudPage': page}|merge(filterParams)) }}">
+                                {{ definition.getFieldLabel(field) }}
+                                {% if field == sortField %}
+                                    <span class="glyphicon glyphicon-chevron-{{ sortAscendingStr ? 'up' : 'down' }}" aria-hidden="true"></span>
+                                {% endif %}
+                            </a>
+                        {% endif %}
+                    </th>
+                {% endfor %}
+                <th>Action</th>
+            </tr>
+
+            {% for entity in entities %}
+                {% set id = entity.get('id') %}
+                <tr id="crudId{{ id }}" class="parent-container" >
+                    {% set urls = urlsMap[id]  %}
+                    <td  >
+                        <input type="checkbox" class="checkbox batch" name="batch-{{id}}"  value="{{id}}"/>
+                    </td>
+                    <td>
+                        <div >
+                            {% set firstUrl = true %}
+                            {% for key, url in urls %}
+                                {% if firstUrl %}
+                                    <a href="#" data-href="{{ url }}" class="galleryItem" data-group="" >
+                                        {% set firstUrl = false %}
+                                        <img src="{{ url }}{% if url is not empty %}?thumb=true{% endif %}" class="galleryImg" >
+                                        <br style="clear: both">
+                                        {% if urls|length > 1 %}
+                                            ({{ urls|length }} Fotos)
+                                        {% endif %}
+                                    </a>
+
+                                {% else %}
+                                    <a href="#" data-href="{{ url }}"  class="galleryItem hidden" data-group="">
+                                        {{ key }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                            {% if urls is empty or urls[0] is empty  %}
+                                <a href="#" class="galleryItem" data-group="">
+                                    <img src="{{ asset('images/placeholder-media.png') }}" class="galleryImg" >
+                                </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        {% for field in collapsedFields %}
+                            <p><b>{{ definition.getFieldLabel(field) }}:</b>
+                                {% include  crud.getTemplate('template', 'renderField', crudEntity) with {
+                                    entity: entity,
+                                    crudEntity: crudEntity,
+                                    definition: definition,
+                                    field: field,
+                                    crud: crud,
+                                    mode: 'list'
+                                } only %}
+                            </p>
+                        {% endfor %}
+                    </td>
+                    {% for field in normalFields %}
+                        <td class="crudField{{ field }}">
+                            {% include  crud.getTemplate('template', 'renderField', crudEntity) with {
+                                entity: entity,
+                                crudEntity: crudEntity,
+                                definition: definition,
+                                field: field,
+                                crud: crud,
+                                mode: 'list'
+                            } only %}
+                        </td>
+                    {% endfor %}
+                    <td>
+                        <a id="crudBtnShow{{ entity.get('id') }}" href="{{ crud.generateURL('crudShow', {'entity': crudEntity, 'id': entity.get('id')}) }}" type="button" class="crudBtnShow btn btn-default btn-xs btn-success">{{ 'crudlex.button.show'|trans }}</a>
+                        <br/>
+                        <a id="crudBtnEdit{{ entity.get('id') }}" href="{{ crud.generateURL('crudEdit', {'entity': crudEntity, 'id': entity.get('id')}) }}" type="button" class="crudBtnEdit btn btn-default btn-xs btn-warning">{{ 'crudlex.button.edit'|trans }}</a>
+                        <br/>
+                        <form class="crudFormDelete" style="display: inline-block" onSubmit="return confirm('{{ 'crudlex.deleteEntityConfirmation'|trans({'%id%': entity.get('id')}) }}');" method="POST" action="{{ crud.generateURL('crudDelete', {'entity': crudEntity, 'id': entity.get('id')}) }}">
+                            <input id="crudBtnDelete{{ entity.get('id') }}" type="submit" class="crudBtnDelete btn btn-default btn-xs btn-danger" value="{{ 'crudlex.button.delete'|trans }}" />
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <p id="crudTotalCount"><strong>{{ 'crudlex.list.total'|trans({'%total%': total}) }}</strong></p>
+
+        {% if total > pageSize %}
+            <nav>
+                <ul class="pagination">
+                    <li{{ page == 0 ? ' class="disabled"' : ''}}><a href="{{ crud.generateURL('crudList', {'entity': crudEntity, 'crudPage': 0, 'crudSortField': sortField, 'crudSortAscending': sortAscendingStr ? 'true' : false}|merge(filterParams)) }}"><span aria-hidden="true">&laquo;</span><span class="sr-only">{{ 'crudlex.list.button.first'|trans }}</span></a></li>
+                    <li{{ page == 0 ? ' class="disabled"' : ''}}><a href="{{ crud.generateURL('crudList', {'entity': crudEntity, 'crudPage': page > 0 ? page - 1 : 0, 'crudSortField': sortField, 'crudSortAscending': sortAscendingStr ? 'true' : false}|merge(filterParams)) }}"><span aria-hidden="true">&lsaquo;</span><span class="sr-only">{{ 'crudlex.list.button.previous'|trans }}</span></a></li>
+                    {% for p in 0..maxPage %}
+                        <li{{ p == page ? ' class="active"' : ''}}>
+                            <a href="{{ crud.generateURL('crudList', {'entity': crudEntity, 'crudPage': p, 'crudSortField': sortField, 'crudSortAscending': sortAscendingStr ? 'true' : false}|merge(filterParams)) }}">{{ p + 1 }}</a>
+                        </li>
+                    {% endfor %}
+                    <li{{ page == maxPage ? ' class="disabled"' : ''}}><a href="{{ crud.generateURL('crudList', {'entity': crudEntity, 'crudPage': page < maxPage ? page + 1 : maxPage, 'crudSortField': sortField, 'crudSortAscending': sortAscendingStr ? 'true' : false}|merge(filterParams)) }}"><span aria-hidden="true">&rsaquo;</span><span class="sr-only">{{ 'crudlex.list.button.next'|trans }}</span></a></li>
+                    <li{{ page == maxPage ? ' class="disabled"' : ''}}><a href="{{ crud.generateURL('crudList', {'entity': crudEntity, 'crudPage': maxPage, 'crudSortField': sortField, 'crudSortAscending': sortAscendingStr ? 'true' : false}|merge(filterParams)) }}"><span aria-hidden="true">&raquo;</span><span class="sr-only">{{ 'crudlex.list.button.last'|trans }}</span></a></li>
+                </ul>
+            </nav>
+        {% endif %}
+
+        <a id="all-images" href="#" style="font-size: xx-small; margin-left: 10em">.</a>
+
+    </div>
+
+{% endblock %}
+
+{% block delayedJs %}
+
+    <!-- Magnific Popup http://dimsemenov.com/plugins/magnific-popup/documentation.html#including-files -->
+    <script  src="{{ asset('js/jquery.magnific-popup.js') }}"></script>
+    <script  src="{{ asset('js/form-list.js') }}"></script>
+
+{% endblock %}

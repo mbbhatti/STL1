@@ -1,0 +1,13 @@
+{
+  "required" : [ "pictures" ],
+  "type" : "object",
+  "properties" : {
+    "pictures" : {
+      "type" : "object",
+      "description" : "The form media.",
+      "allOf" : [ {
+        "$ref" : "#/components/schemas/media"
+      } ]
+    }
+  }
+}

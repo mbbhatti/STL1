@@ -1,0 +1,48 @@
+{
+  "required" : [ "action", "artist", "end_at", "id", "items_amount", "items_sold", "placement", "start_at", "type" ],
+  "type" : "object",
+  "properties" : {
+    "start_at" : {
+      "type" : "string",
+      "description" : "The moment the object will start.",
+      "format" : "date-time",
+      "example" : "2016-01-01T00:00:00Z"
+    },
+    "end_at" : {
+      "type" : "string",
+      "description" : "The moment the object will end.",
+      "format" : "date-time",
+      "example" : "2016-01-31T00:00:00Z"
+    },
+    "action" : {
+      "type" : "string",
+      "description" : "The action of the market.",
+      "example" : "Christmas 2016"
+    },
+    "placement" : {
+      "type" : "string",
+      "description" : "The placement of the market.",
+      "example" : "1. Etage"
+    },
+    "type" : {
+      "type" : "string",
+      "description" : "The type of the market.",
+      "example" : "Aufsteller"
+    },
+    "items_amount" : {
+      "type" : "integer",
+      "description" : "The items amount of the market.",
+      "example" : 40
+    },
+    "items_sold" : {
+      "type" : "integer",
+      "description" : "The sold items of the market.",
+      "example" : 15
+    },
+    "market_id" : {
+      "type" : "integer",
+      "description" : "The ID of the market.",
+      "example" : 1
+    }
+  }
+}
