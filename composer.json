@@ -1,6 +1,6 @@
 {
-    "name": "smf/universal-pos",
-    "description": "Backend Universal Point Of Sale",
+    "name": "stl/1",
+    "description": "Backend STL 1",
     "license": "proprietary",
     "minimum-stability": "dev",
     "prefer-stable": true,

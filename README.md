@@ -41,11 +41,11 @@ A Docker container is also available for development. Make sure you have install
 - .docker/vhost.conf use for application virtual host
 
 #### Database Setting
-- A MariaDB 10.4.13 is running and available at mysql://app:password@universalpos-mariadb:3306/universalpos from within Docker assuming there is an external link to this container.
+- A MariaDB 10.4.13 is running and available at mysql://app:password@host:port/db from within Docker assuming there is an external link to this container.
 
 - These docker-compose.yml variables can be replaced to link different database.
 ```
-DATABASE_NAME=universalpos
+DATABASE_NAME=name
 DATABASE_USER=app
 DATABASE_PASSWORD=password
 DATABASE_ROOT_PASSWORD=password
@@ -57,7 +57,7 @@ ports:
 ```
 From the Docker running machine, you can connect it via 
 ```
-mysql://app:password@localhost:13306/universalpos
+mysql://db_user:db_password@db_host:db_port/db_name
 ```
 
 #### Build And Run Docker
